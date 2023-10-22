@@ -1,26 +1,24 @@
 import dearpygui.dearpygui as dpg
 
 dpg.create_context()
-
-def callback(sender, app_data):
-    print('OK was clicked.')
-    print("Sender: ", sender)
-    print("App Data: ", app_data)
-
-def cancel_callback(sender, app_data):
-    print('Cancel was clicked.')
-    print("Sender: ", sender)
-    print("App Data: ", app_data)
-
-dpg.add_file_dialog(
-    directory_selector=True, show=False, callback=callback, tag="file_dialog_id",
-    cancel_callback=cancel_callback, width=700 ,height=400)
-
-with dpg.window(label="Tutorial", width=800, height=300):
-    dpg.add_button(label="Directory Selector", callback=lambda: dpg.show_item("file_dialog_id"))
-
-dpg.create_viewport(title='Custom Title', width=800, height=600)
+dpg.create_viewport()
 dpg.setup_dearpygui()
+
+with dpg.theme() as disabled_theme:
+    with dpg.theme_component(dpg.mvInputFloat, enabled_state=False):
+        dpg.add_theme_color(dpg.mvThemeCol_Text, [255, 0, 0])
+        dpg.add_theme_color(dpg.mvThemeCol_Button, [255, 0, 0])
+
+    with dpg.theme_component(dpg.mvInputInt, enabled_state=False):
+        dpg.add_theme_color(dpg.mvThemeCol_Text, [255, 0, 0])
+        dpg.add_theme_color(dpg.mvThemeCol_Button, [255, 0, 0])
+
+dpg.bind_theme(disabled_theme)
+
+with dpg.window(label="tutorial"):
+    dpg.add_input_float(label="Input float", enabled=False)
+    dpg.add_input_int(label="Input int", enabled=True)
+
 dpg.show_viewport()
 dpg.start_dearpygui()
 dpg.destroy_context()
